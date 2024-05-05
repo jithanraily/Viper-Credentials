@@ -1,5 +1,5 @@
 // Viper Credentials
-// v1.0.0
+// v1.1.0
 
 let password = "";
 
@@ -13,16 +13,26 @@ const charSet = [
     '.', '?', '/', '`', '~', '1', '2', '3', '4', '5', '6', '7', '8',
     '9', '0'
 ];
-const passSet = [];
+
+const selection = [];
 const preferredLength = process.argv[2];
 
-function generatePass(passwordLength) {
-    for (; passSet.length < passwordLength;) {
-        passSet.push(`${charSet[Math.round(Math.random() * (charSet.length - 1))]}`);
+function generatePass(args) {
+    switch (args.length) {
+        case 2: {
+            console.log("Password length not specified!");
+        };
+        break;
+        case 3: {
+            for (; selection.length < args[2];) {
+                selection.push(`${charSet[Math.round(Math.random() * (charSet.length - 1))]}`);
+            };
+        
+            password = selection.join("");
+            console.log(password);
+        }
+        break;
     };
-
-    password = passSet.join("");
 };
 
-generatePass(preferredLength);
-console.log(password);
+generatePass(process.argv);
