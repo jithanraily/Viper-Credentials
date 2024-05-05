@@ -1,7 +1,5 @@
 // Viper Credentials
-// v1.1.0
-
-let password = "";
+// v1.2.0
 
 const charSet = [
     'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm',
@@ -15,24 +13,38 @@ const charSet = [
 ];
 
 const selection = [];
-const preferredLength = process.argv[2];
 
-function generatePass(args) {
+function createPassword(passwordLength) {
+    for (; selection.length < passwordLength;) {
+        selection.push(`${charSet[Math.round(Math.random() * (charSet.length - 1))]}`);
+    };
+
+    const password = selection.join("");
+    const output = `\nPassword: ${password}`;
+
+    console.log(output);
+};
+
+function processOptions(args) {
     switch (args.length) {
         case 2: {
-            console.log("Password length not specified!");
+            createPassword(12);
         };
         break;
         case 3: {
-            for (; selection.length < args[2];) {
-                selection.push(`${charSet[Math.round(Math.random() * (charSet.length - 1))]}`);
-            };
-        
-            password = selection.join("");
-            console.log(password);
-        }
-        break;
-    };
-};
+            const passwordLength = Number(args[2]);
 
-generatePass(process.argv);
+            if (!(Object.is(passwordLength, NaN))) {
+                createPassword(args[2]);
+            } else {
+                console.log('\nERROR: Password length must be numeric!');
+            };
+        };
+        break;
+        default: {
+            console.log("\nERROR: Could not generate password\nCAUSE: Unexpected argument");
+        };
+    };
+}
+
+processOptions(process.argv);
