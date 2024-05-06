@@ -13,4 +13,6 @@ Viper Credentials is a free and open-source password generator built on top of N
 
 > node ViperCredentials.js \<length>
 
+**Default password length:** 12
+
 Have Fun!
